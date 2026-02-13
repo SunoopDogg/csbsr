@@ -206,7 +206,7 @@ class HausdorffDistance:
     def hd_distance(self, x: np.ndarray, y: np.ndarray):
 
         if np.count_nonzero(x) == 0 or np.count_nonzero(y) == 0:
-            return np.array([np.Inf])
+            return np.array([np.inf])
 
         indexes = np.nonzero(x)
         distances = edt(np.logical_not(y))

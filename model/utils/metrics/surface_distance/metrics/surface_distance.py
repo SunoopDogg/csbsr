@@ -252,13 +252,13 @@ def compute_surface_distances(mask_gt, mask_pred, spacing_mm):
         distmap_gt = ndimage.morphology.distance_transform_edt(
                 ~borders_gt, sampling=spacing_mm)
     else:
-        distmap_gt = np.Inf * np.ones(borders_gt.shape)
+        distmap_gt = np.inf * np.ones(borders_gt.shape)
 
     if borders_pred.any():
         distmap_pred = ndimage.morphology.distance_transform_edt(
                 ~borders_pred, sampling=spacing_mm)
     else:
-        distmap_pred = np.Inf * np.ones(borders_pred.shape)
+        distmap_pred = np.inf * np.ones(borders_pred.shape)
 
     # compute the area of each surface element
     surface_area_map_gt = neighbour_code_to_surface_area[neighbour_code_map_gt]
@@ -319,7 +319,7 @@ def compute_average_surface_distance(surface_distances):
     return (average_distance_gt_to_pred, average_distance_pred_to_gt)
 
 
-def compute_robust_hausdorff(surface_distances, percent, outlier=np.Inf):
+def compute_robust_hausdorff(surface_distances, percent, outlier=np.inf):
     """Computes the robust Hausdorff distance.
 
     Computes the robust Hausdorff distance. "Robust", because it uses the
