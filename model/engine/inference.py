@@ -205,6 +205,7 @@ def inference_for_ss(args, cfg, model, test_loader):
             plot_metrics_th(amsd_scores, thresholds, "MSD", med=True)
 
     save_iou_log(aiu_scores, thresholds, fnames, args.output_dirname) # Output IoU scores as csv file.
+    save_sr_metrics_log(img_psnr_scores, ssim_scores, kernel_psnr_scores, fnames, args.output_dirname)
 
 
 def inference_tti_building(args, cfg, model, test_loader):
@@ -288,6 +289,16 @@ def save_iou_log(aiu_scores, thresholds, fnames, output_dir):
     df = pd.DataFrame(aiu_scores, columns=thresholds, index=fnames)
     df.to_csv(os.path.join(output_dir, 'iou_log.csv'))
     print('IoU log saved!!')
+    print(df)
+
+def save_sr_metrics_log(img_psnr_scores, ssim_scores, kernel_psnr_scores, fnames, output_dir):
+    df = pd.DataFrame({
+        'PSNR': img_psnr_scores,
+        'SSIM': ssim_scores,
+        'PSNR(Kernel)': kernel_psnr_scores,
+    }, index=fnames)
+    df.to_csv(os.path.join(output_dir, 'sr_metrics_log.csv'))
+    print('SR metrics log saved!!')
     print(df)
 
 def calc_distance_metrics(preds, gts, num_hd_outliner, num_msd_outliner):
