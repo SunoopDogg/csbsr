@@ -1,0 +1,28 @@
+services:
+  kkalssam-python-template:
+    build:
+      context: .
+    image: python3.14.2:trixie-slim-uv
+    container_name: kkalssam-python-template
+    tty: true
+    ipc: host
+    environment:
+      - DISPLAY=${DISPLAY:-host.docker.internal:0}
+      - QT_X11_NO_MITSHM=1
+    volumes:
+      - .:/root/kkalssam-python-template
+      - /tmp/.X11-unix:/tmp/.X11-unix
+
+  kkalssam-python-template-gpu:
+    extends:
+      service: kkalssam-python-template
+    container_name: kkalssam-python-template-gpu
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    profiles:
+      - gpu
